@@ -1,6 +1,9 @@
 @echo off
 chcp 65001 >nul  && cls  && echo off
 
+:: Путь к папке с логами, по стандарту для стим версии, при необходимости поменять
+set "LOG_PATH=C:\Program Files (x86)\Steam\steamapps\common\Path of Exile 2\logs"
+
 :: Проверяем права админа
 net session >nul 2>&1
 if %errorLevel% neq 0 (
@@ -11,7 +14,7 @@ if %errorLevel% neq 0 (
 
 :: Очистка логов при запуске
 echo Начата очистка логов...
-del /Q /F "C:\Program Files (x86)\Steam\steamapps\common\Path of Exile 2\logs\*.*"
+del /Q /F "%LOG_PATH%\*.*"
 if %errorLevel% equ 0 (
  echo Логи успешно очищены
 ) else (
@@ -22,7 +25,7 @@ if %errorLevel% equ 0 (
 echo Создаем задачу для автоматической очистки...
 schtasks /CREATE ^
  /TN "Clear PoE2Logs" ^
- /TR "cmd /c del /Q /F \"C:\Program Files (x86)\Steam\steamapps\common\Path of Exile 2\logs\*.*\"" ^
+ /TR "cmd /c del /Q /F \"%LOG_PATH%\*.*\"" ^
  /SC ONLOGON ^
  /RU SYSTEM ^
  /RL HIGHEST
@@ -35,3 +38,4 @@ if %errorLevel% equ 0 (
 )
 
 pause
+
